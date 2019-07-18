@@ -1,0 +1,149 @@
+问题1如下：
+java.sql.SQLException: The server time zone value ' sxxx' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support.
+解决办法：
+把配置文件
+spring.datasource.url=jdbc:mysql://localhost:3306/testorder
+改成以下方式：	
+spring.datasource.url=jdbc:mysql://localhost:3306/testorder?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+
+
+问题2如下：
+Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdb	
+解决办法：
+把配置文件
+com.mysql.jdbc.Driver
+改成
+com.mysql.cj.jdbc.Driver
+
+
+问题3如下：
+spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+解决办法：
+配置文件添加
+spring.jpa.open-in-view=false
+
+问题4如下
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2019-07-10 18:08:26.804 ERROR 25384 --- [  restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+***************************
+APPLICATION FAILED TO START
+***************************
+Description:
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+Reason: Failed to determine a suitable driver class
+Action:
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+解决办法：
+把
+resources文件夹设置成为配置文件夹即可
+
+
+问题5警告如下
+ Establishing SSL connection without server's identity verification is not recommended. According to
+解决办法：
+把配置文件
+url: jdbc:mysql://localhost:3306/testorder?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+改为
+url: jdbc:mysql://localhost:3306/testorder?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false
+
+问题6警告如下
+[THYMELEAF][restartedMain] Template Mode 'HTML5' is deprecated. Using Template Mode 'HTML' instead.
+解决办法：
+把配置文件
+mode: HTML5
+改为
+mode: HTML
+
+问题7如下
+SQL Error: 1064, SQLState: 42000
+org.springframework.dao.InvalidDataAccessResourceUsageException: error performing isolated work; SQL [n/a]; nested exception is org.hibernate.exception.SQLGrammarException: error performing isolated work
+解决办法：
+把数据库的表名
+改为不是数据库保留字段的名字即可
+我犯的错误是因为把order当做数据库其中的一个表明来用了，但是order是数据库的保留字段
+
+问题8如下
+Caused by: org.hibernate.PropertyAccessException: Could not set field value [1] value by reflection : [class litemall.sameorder.bean.Order.id] setter of litemall.sameorder.bean.Order.id
+解决办法：是因为实体中的id字段设置成为了integer类型的了，而在使用的时候是用的long类型的 所以报以上错误  ，在实体中把映射的字段类型改为使用时的类型就可以拉
+
+问题9如下
+ids for this class must be manually assigned before calling save(): litemall.sameorder.bean.Order
+解决办法：
+jpa 中因为Hibernate没有手动设置id
+
+问题10如下
+java.util.NoSuchElementException: No value present
+解决办法：
+是因为没有查找到数据库中的数据
+
+问题11如下
+java.lang.IllegalArgumentException: URI is not absolute
+解决办法：
+因为是非法网址
+把网址前面加 http:// 后面加 / ;
+
+
+问题12如下
+Transaction is already completed - do not call commit or rollback more than once per transaction
+由于异常被catch，而在catch时，进行了事务回滚，正常在此应该退出方法处理（程序直接返回或者抛出异常），但事实上程序直接执行了后续的代码：platformTransactionManager.commit(txStatus);所以报错。
+ 解决方法：在catch过程中，抛出异常，结束方法执行
+
+
+问题13如下
+Duplicate entry '16' for key 'PRIMARY'
+添加的数据重复主键。
+
+
+问题14如下
+vue 前端问题
+vue.esm.js:574 [Vue warn]: Error in render: "TypeError: Cannot read property 'number' of undefined"
+是因为后端查询出来的数据没有'number' 这个东西 但是vue中还是用prop来定义这个属性 所以报错
+
+
+问题15如下
+初始创建项目的时候测试控制器出现以下错误
+Whitelabel Error Page
+This application has no explicit mapping for /error, so you are seeing this as a fallback.
+Thu Jul 18 10:59:15 CST 2019
+There was an unexpected error (type=Not Found, status=404).
+No message available
+解决办法：
+是因为 初始创建项目的时候测试控制器  控制器的文件夹放错位置了  应该放在
+对应启动类的包下，其他自己新建的包都应该是它的一个子包。注意，目录结构的关联。
+
+问题17如下
+在控制器中调用service 层是报以下错误
+Servlet.service() for servlet [dispatcherServlet] in context with path []
+是因为在service层的实现类中没有添加@servce注解
+
+问题18如下
+在访问数据库的时候找不到mapper 文件 然后报以下错误
+org.apache.ibatis.binding.BindingException: Invalid bound statement (not found):
+解决办法是在配置文件中加入
+mybatis.mapperLocations=classpath:gxhx.scsamezl.dao/*Mapper.xml  
+
+问题19如下
+RestTemplate   xxxx.postForEntity("url",map,String.class); 连接的时候404null 是因为 连接url的地方没有返回值
+org.springframework.web.client.HttpClientErrorException: 404 null
+
+问题20如下
+警告：
+ Registered driver with driverClassName=oracle.jdbc.driver.OracleDriver was not found, trying direct
+把配置文件中的
+spring.datasource.driver-class-name=oracle.jdbc.driver.OracleDriver
+改为
+spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+
+
+问题21如下
+报以下错误
+The Network Adapter could not establish the connection
+是因为连接不上数据库
+一般是数据库的配置有问题
+
+问题22如下
+报以下错误
+arsing error was found in mapping #{}
+是因为mapper.xml中有空的传入参数没有填写
