@@ -1,0 +1,16 @@
+
+警告: Handler execution resulted in exception
+java.lang.IllegalStateException: An Errors BindingResult argument is expected to be declared immediately after the model attribute, the @RequestBody or the @RequestPart arguments to which they apply: public org.springframework.ui.ModelMap com.web.water.admincontroller.SetDateController.deleteAll(org.springframework.validation.BindingResult)
+
+日期装换格式
+SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
+	Date date = new Date();
+	formatter.(date);
+
+视图查询中没有id 如果要放到实体中就会报错 查询不了
+could not execute query
+
+映射实体时实体的名字不相同会报以下错误
+Error creating bean with name 'baseSettingDao': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sessionFactory' defined in file [D:\apache-tomcat-9.0.12\wtpwebapps\pratiseone\WEB-INF\classes\applicationContext-common.xml]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: No identifier specified for entity: com.web.water.bean.Allincome_view
+	
+冠哥的框架中，有个自动刷新页面的功能，在list的jsp文件中修改好后，要记得在 add添加的jsp页面修改刷新的bindFrom('#${formId}', '会员等级列表'); 内的tittle名称。

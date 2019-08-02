@@ -1,0 +1,214 @@
+实体类
+
+1.实体和数据库表映射。
+实体需实现序列化接口。
+@Entity ：实体
+@Table(name="t8606_votemanager")：影设的数据表。
+@Id：数据表的ID
+@GeneratedValue(strategy=GenerationType.AUTO)：自动生成
+@Transient：的作用是指定该属性或字段不是永久的，可以根据注解的属性进行查询。
+2.BigDecimal金额类型。
+
+
+dao层
+继承dao层的父类EtuBaseDao<T,ID extends Serializable>得到dao层封装好的方法，方法有 增删改查和分页
+@Repository用于标注数据访问组件 
+Criteria criteria = super.getSession().createCriteria(getMyClass());相当于sql语句中的 select* from ? 当前的实体类
+Criteria与Session绑定，其生命周期跟随着Session结束而结束，使用Criteria时进行查询时，每次都要于执行时期动态建立物件，并加入各种查询条件，随着Session的回收，Criteria也跟着回收。
+Restrictions.eq("name",name)表示查询条件  相当于sql语句中的where name=? 查询得到的是一个数组 看返回值  如果只需要一个实体则必须设置返回值为一个。
+setMaxResults（）是用来配合数据库生成sql的，在sql里就控制查询的记录数目设置成单个查询 作为返回值
+uniqueResult()；hibernate的参考手册，query接口提供了一个更好的方法用来获取实例，当返回的实例明确只有一个或者为null的时候。这个方法是这样用的，当你能够肯定你的数据库中根据你的查询条件只会返回唯一结果，就可以用这个方法！否则就用list（）；
+
+
+service业务层
+继承业务层的父类EtuBaseService<T,ID extends Serializable>得到业务层父类封装好的方法，方法有 增删改查和分页
+继承父类 增删改查和分页的方法
+
+
+
+控制层
+继承父类BaseController
+@Controller
+@RequestMapping("/manager/water/article/*")：注解会将 HTTP 请求映射到 MVC
+@RequestParam 注解配合 @RequestMapping 一起使用，可以将请求的参数同处理方法的参数绑定在一起。
+@RequestParam 注解配合@RequestParam 有三个属性：
+（1）value：请求参数名（必须配置）
+（2）required：是否必需，默认为 true，即 请求中必须包含该参数，如果没有包含，将会抛出异常（可选配置）
+（3）defaultValue：默认值，如果设置了该值，required 将自动设为 false，无论你是否配置了required，配置了什么值，都是 false（可选配置）
+@Resource(name="articleService")：自动装配根据制定名字进行匹配
+@Autowired :自动装配匹配类型
+@InitBinder 注解进行绑定参数  日期装换使用
+@ResponseBody 表示该方法的返回结果直接写入 HTTP response body 中，一般在异步获取数据时使用【也就是AJAX】
+@RequestBody是作用在形参列表上，用于将前台发送过来固定格式的数据【xml 格式或者 json等】封装为对应的 JavaBean 对象，封装时使用到的一个对象是系统默认配置的 HttpMessageConverter进行解析，然后封装到形参上。
+
+params="json=1"params="json"出现的时候，表示访问这个地址，必须要传递?json这个参数，否则不能够访问 
+
+
+
+sql中的主键未自动递升会报错。
+Error updating database. Cause: java.sql.SQLException: Field 'id' doesn't have a default value
+当memberService打错成memberSevice是会报错。
+org.springframework.beans.factory.NoSuchBeanDefinitionException: No bean named 'memberSevice' available
+新增表的字段信息必须把全部的字段都要在xml中设置完毕，否则会报错，除非是更改用户信息的时候才可以设置几个字段，否则会报错
+Error updating database. Cause: java.sql.SQLException: Field 'relavel' doesn't have a default value
+
+js和jsp报错的解决办法
+windows—>Preferences—>Validation—>把Show a confirmation dialog when performng manual validations 前边的√去掉—>Disable All —> apply —> ok
+
+httpsession报错是因为 没有添加运行环境。
+在出错项目上右击→选择"Properties"→选择"Java Build Path"，点击右面的“Add Library...”添加jar包库：，“Server Runtime” 就是运行环境：
+
+
+导入的项目报上错一般是是因为环境设置问题
+点击>右击>Build Path>configura Build Path>Add Library...>maven>Project Facets>Dynamic Web Module>configuration选择运行的tomcat运行版本>java>javaScript
+
+
+启动报错 可能是因为java的版本不兼容，或者不匹配造成的，更改版本和更改配置文件的扫面控件解决
+上下文初始化失败
+Context initialization failed
+无法解析类文件可能是因为一个新的Java类文件版本还不支持
+ASM ClassReader failed to parse class file - probably due to a new Java class file version that isn't supported yet: file 
+
+js库文件需要放在 webapp 下的文件中,没有引用标签库也会报此类错误。
+Uncaught ReferenceError: $ is not defined
+
+jason 取不到值是因为 ID选择器问题。还有就是因为数据的参数输入错误。
+
+修改后端代码之后，没有更新或者重新启动=容器容易找不到问题在哪里。                      
+
+点击事件冲突的时候，提交的数据会有问题。
+
+jason 用modelMap 比用  实体类ResponseResult<Void> 要方便，但是ModelMap作为参数只能是在get方法的时候用做参数， 而post的时候需要在方法中新建ModelMap modelMap = new ModelMap();否则虽然能走到后台，但是返回前台的时候会报错
+HTTP Status 405 – Method Not Allowed 》》》》Request method 'GET' not supported  
+
+redirect:重定向英文
+
+
+var 在  js中直接接收后台的值时应该用单引号 包住就能用变量了。
+
+使用$.ajax之前必须要先在js界面应用标签库。接受ajax的方式  
+$.ajax({
+				"url" : "change_state.do",
+				"data" : "id="+id,
+				"type" : "POST",
+				"dataType" : "json",
+				"success" : function(obj) {
+					if(obj.success){
+						alert(obj.msg);
+						location.reload();
+					}else{
+						alert(obj.msg);
+					}
+				}
+			});
+// 			$.post("change_state.do",{id:id},function(data){
+// 				if(data.success){
+// 					alert(data.msg);
+// 					location.reload();
+// 				}else{
+// 					alert(data.msg);
+// 				}
+// 			});
+如果需要的数据量比较大，需要用到对象传值。
+var map = {};
+map["name"] = name;
+map 是一个对象 
+// 			$.post("change_state.do",{map},function(data){
+// 				if(data.success){
+// 					alert(data.msg);
+// 					location.reload();
+// 				}else{
+// 					alert(data.msg);
+// 				}
+// 			});
+
+引用导入js文件的时候   用${pageContext.request.contextPath}来作为绝对定位  不会因为路径的问题而报错。
+
+
+添加注解的时候要记得先添加注解扫描<mapper></mapper>  否则找不到对应的 mapper 文件
+
+
+严重: Servlet.service() for servlet [dispatcherServlet] in context with path [/MoneyComeMyHome] threw exception [Request processing failed; nested exception is org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.executor.ExecutorException: A query was run and no Result Maps were found for the Mapped Statement 'org.example.mapper.ManageMapper.findManageCount'.  It's likely that neither a Result Type nor a Result Map was specified.] with root cause
+
+INSERT INTO manage (rlavel) VALUES (',');
+
+树状图中的  href 拼写错误。   ${fn:length(aa.list)==2} 不为空有两种判断我只考虑了一种  所以一直判断不成功，因为考虑的条件不足所以逻辑不对。计算对碰奖的时候处理自己的激活状态也是一样。没有想好判断的条件所
+以逻辑很难。
+
+在编写代码的收控制层做了太多的判断，应该在业务层直接进行判断，控制层直接调用。
+
+编辑jsp的时候没有导入js的jq包。用$进行变量使用的时候容易报错。
+
+在jsp页面中的值没有加等号就会一直传值不成功。传到前台的时候就会出现空指针异常。
+
+用json异步提交的时候，如果用ajax获取值了之后，就不能用form 表单提交取值了  。要不然就会在点击提交按钮的时候先提交from表单的数据，就算是填写不正确也会传到后端，就会容易报错。
+
+submit提交表单对象，Hibernate重定向的时候，modelmap要放在参数中。否则会跳转页面不成功。
+
+用Hibernate的框架的时候 应为方法名的问题报错
+异常：Write operations are not allowed in read-only mode (FlushMode.MANUAL): Turn
+因为方法名只能包含  save或者update两个保存的方法才能正常运行 否则会报错。
+
+控制器中不能有相同的映射名，否则会报错：Ambiguous mapping found. Cannot map 'accountController' bean method 
+
+在Hibernate视图中 id不能做为查询条件使用。id作为查询条件无效。
+
+
+在Hibernate的实体类中，零食字段的标注注解只能表示一个，每一个零时字段都需要标注注解。否则会报错 Could not determine type for: java.util.List, at table: member, for columns: [org.hibernate.mapping.Column(list)]
+
+一直是等待locahost的响应 是因为Server的设置问题，Server Options中server location选中第一个和  Server Options 只选中第二个 没有选中第一个就会一直很慢。
+
+当控制器中的映射名相同的时候 比如 两个相同的路径   list.do   list.do 会报错  Ambiguous mapping found. Cannot map 'memberShoeListController' bean method
+
+在Hibernate的实体类中,映射好了实体之后，如果不能创建表格，那可能是因为自字段和数据库的字段冲突。
+
+异步提交的时候  没有添加注解@ResponseBody  post就不能提交  会默认是get方式提交数据。
+
+当我们提交的参数和实体，就是criteria.add(Restrictions.eq("levaid", levaid));中的 参数在数据库中没有的的时候 或者不一样的时候会报错   could not resolve property: leavid of: com.web.water.bean.MemberLeaveMessage 
+
+js中动态拿值的方法  拿法1：
+ <input type="button" id="${m.id }"  value="回复">
+	$(function(){
+		$("input[type='button']").click(function(){
+			alert($(this).attr("id"));
+		});
+		
+	});
+
+js中动态拿值的方法  拿法2：
+<input type="button" onclick="test(${m.id})" value="回复">
+function test(id){
+alert(id)
+}
+
+前台页面from表单提交的数据  可以var一个对象 $('#form').serializeArray(); 得到一个实体 传至后台不用一个一个的参数传输。
+$('#form').serializeArray();
+
+Hibernate  框架控制器的包改名之后，或者实体的名字改名之后，一定要在配置文件中重新配置，要不让 前者会找不到匹配的路径，后者会直接报错。
+
+后端get方式接收值得值一定会是在前端穿过来的 ，想要想要了解传到后台的的值在什么地方就去前端找。
+
+ajax 和 json 的用法要总结。
+
+用按钮作为点击事件的时候 按钮要设置为button类型 否则会报找不到点击的方法。
+
+jsp共同的页面可以截取出来做为一个jsp文件  其他页面想用的直接引入文件就可以了。 引入方法为
+
+<%@ page language="java" contentType="textml; charset=ISO-8859-1" pageEncoding="UTF-8" %>
+文件引入的格式
+<jsp:include page="../asc.jsp"/>
+JSP引入文件黑白是因为文件中有格式错误  或者文件的引入的标签头设置错误。
+
+BigDecimal 的加减乘除用法
+public BigDecimal add(BigDecimal value);                        //加法
+public BigDecimal subtract(BigDecimal value);                   //减法 
+public BigDecimal multiply(BigDecimal value);                   //乘法
+public BigDecimal divide(BigDecimal value);                     //除法
+
+jsp中没有正确的应用 jq库文件就会报此类错误。
+Uncaught ReferenceError: $ is not defined
+
+数据能正常提交但是却接收不到回调函数的情况 很大一部分是因为没有添加 @ResponseBody 注解造成的。
+
+Hibernate框架因为传入的字段和数据库的字段不一样就会出现下面的错误
+could not resolve property: idname of: com.web.water.bean.LeaveMessage
