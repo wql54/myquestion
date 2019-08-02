@@ -147,3 +147,102 @@ The Network Adapter could not establish the connection
 报以下错误
 arsing error was found in mapping #{}
 是因为mapper.xml中有空的传入参数没有填写
+
+
+问题23
+数据库中的时间比时间页面显示的时间相差8个小时
+把配置文件加上 &useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Hongkong
+改为以下内容即可
+jdbc:mysql://172.xx.xx.xx:3306/test?useUnicode=true&characterEncoding=gbk&useSSL=true
+&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Hongkong
+
+Jason和实体的转换 用以下代码就可以了
+pom依赖：
+<dependency>
+     <groupId>com.alibaba</groupId>
+     <artifactId>fastjson</artifactId>
+     <version>1.2.7</version>
+</dependency>
+工具类代码：
+import java.util.ArrayList;
+import java.util.List;
+ 
+import com.alibaba.fastjson.JSON;
+ 
+/**
+ * Json工具类
+ *
+ */
+public class JsonUtil {
+    /**
+     * 字符串转换为实体类
+     *
+     */
+    public static <T> T StringToEntity(String str, Class<T> classT) {
+        T t = JSON.parseObject(str, classT);
+        return t;
+    }
+ 
+    /**
+     * 字符串转换为实体集合
+     *
+     */
+    public static <T> ArrayList<T> StringToEntityList(String str, Class<T> classT) {
+        List<T> lst = JSON.parseArray(str, classT);
+        return (ArrayList<T>) lst;
+    }
+ 
+    /**
+     * 实体类转换为字符串
+     *
+     */
+    public static <T> String EntityToString(T data) {
+        String str = JSON.toJSONString(data);
+        return str;
+    }
+}
+
+问题23如下
+报以下错误
+java.lang.NoClassDefFoundError: net/sf/json/JSONObject
+是因为没有正确的导入文件包。需要早pom.xml中导入正确的包
+
+
+问题24如下
+java.lang.UnsupportedOperationException: null
+fastjson转换  jason 转换为实体的时候 localdatetime 转换异常所以出现此类错误
+解决的办法在传参之前先把参数转换为Jason格式 然后再进行传参 接收参数的地方直接把jason转换为实体即可
+
+
+问题25如下
+连接池配置错误
+java.sql.SQLRecoverableException: IO 错误: Connection reset
+当数据库连接池中的连接被创建而长时间不使用的情况下，该连接会自动回收并失效。
+但是客户端并不知道 ，在进行数据库操作时仍然使用的是无效的数据库连接，这样就会导致客户端程序报错误。
+重新配置连接池
+spring.datasource.validationQuery=SELECT 1 FROM DUAL
+
+
+问题26如下
+create connection SQLException, url: jdbc:oracle:thin:@192.168.199.184:1521:zlzxxt, errorCode 0, state null
+java.sql.SQLException: sql injection violation, syntax error: syntax error, expect EQ, actual IDENTIFIER pos 17, line 1, column 10, token IDENTIFIER utf8mb4 : SET NAMES utf8mb4
+报以上错误是因为 项目中的数据库配置有问题
+
+
+问题27如下
+ ORA-01861: 文字与格式字符串不匹配
+是因为传入数据库中的时间类型不对 、
+ 传入数据库中的时间类型 要与数据库中的类型相同  传入的是字符串 数据库中的就必须为字符串  传入的是date类型 数据库中的也应该是类型
+
+问题28如下
+Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date and java.lang.String
+是因为传入数据库中的时间 不能和字符串进行比较 所以判断的时候
+<if tesd="date != null and date != '' ">是错的  应该改为<if tesd="date != null">即可
+
+
+问题29如下
+### The error may involve gxhx.scsamezl.dao.JK_DJ_YZBLMapper.create-Inline
+### The error occurred while setting parameters
+### SQL: insert into JK_DJ_YZBL                    values
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00936: 缺失表达式
+是因为传入数据库中的值错误而引起的  没有传入参数
