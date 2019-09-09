@@ -1,5 +1,6 @@
 问题1如下：
-java.sql.SQLException: The server time zone value ' sxxx' is unrecognized or represents more than one time zone. You must configure either the server or JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support.
+java.sql.SQLException: The server time zone value ' sxxx' is unrecognized or represents more than one time zone. You must configure either the server or 
+JDBC driver (via the serverTimezone configuration property) to use a more specifc time zone value if you want to utilize time zone support.
 解决办法：
 把配置文件
 spring.datasource.url=jdbc:mysql://localhost:3306/testorder
@@ -246,3 +247,48 @@ Cause: java.lang.IllegalArgumentException: invalid comparison: java.util.Date an
 ### SQL: insert into JK_DJ_YZBL                    values
 ### Cause: java.sql.SQLSyntaxErrorException: ORA-00936: 缺失表达式
 是因为传入数据库中的值错误而引起的  没有传入参数
+
+问题30如下
+Uncaught (in promise)
+audit.vue:57 Uncaught (in promise) TypeError: Cannot set property 'notReview' of undefined
+    at audit.vue:57
+    at <anonymous>
+未铺货的异常时因为在前端写方法的时候没有 捕获异常而引起德 错误 有可能是因为已修改了代码 没有重新编译而引起的错误。
+其中更大的一部分原因是因为
+原来我们忘记了javascript 语言中 this关键字的用法了。在javascript语言中，this代表着当前的对象，它在程序中随着执行的上下文随时会变化。
+在本例中回调函数对象相对于showactionsheet点击事件函数对象已经发生了变化。所以已经不是原来的页面对象了。
+自然就没有了data属性，也没有了data.itemLists属性了。解决的办法就是复制一份当前的对象。所以我们有了这个重要的语句：
+var that=this;//把this对象复制到临时变量that.
+这时候我们使用that 就不会找不到原来的对象了
+作者：dodo607
+链接：https://www.jianshu.com/p/1ab0b8c4c078
+来源：简书
+简书著作权归作者所有，任何形式的转载都请联系作者获得授权并注明出处。
+
+
+
+问题31如下
+Caused by: com.mysql.cj.exceptions.InvalidConnectionAttributeException: The server time zone value '
+此问题为时区问题,在 JDBC 的连接 url 部分加上 serverTimezone=UTC 即可。
+
+问题32如下
+关于Oracle报错ORA-00979不是GROUP BY表达式但一些朋友经常爱把select 列表项的中列忘了写在group by中。于是就出现了以上的错误ORA-00979 不是 GROUP BY 表达式。
+Oracle的中文错误提示信息翻译得非常不到位，面对着不是 GROUP BY 表达式很多朋友摸不着头脑，不知道oracle在说什么。
+例如下面的例子就会出现这个错误：
+SQL> select deptno,job,avg(sal) from emp group by deptno;
+select deptno,job,avg(sal)
+ERROR 位于第 1 行:
+ORA-00979: 不是 GROUP BY 表达式
+这里就是因为在select 列表像中出现了像deptno和job，而在group by中并没有出现的缘故。
+以上的错误纠正为：
+Select deptno,job,avg(sal) from emp Group by deptno,job;
+
+问题33如下
+bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00911: 无效字符
+在数据库中可以查询，在xml中报错是因为多了一个分号；而引起的错误
+
+
+问题34如下
+close statement error
+2019-09-05 17:14:17.535 ERROR 16240 --- [nio-8089-exec-7] com.alibaba.druid.pool.DruidDataSource   : discard connection
+java.sql.SQLRecoverableException: IO 错误: Socket read timed out
