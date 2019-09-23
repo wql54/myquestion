@@ -292,6 +292,7 @@ bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00
 close statement error
 2019-09-05 17:14:17.535 ERROR 16240 --- [nio-8089-exec-7] com.alibaba.druid.pool.DruidDataSource   : discard connection
 java.sql.SQLRecoverableException: IO 错误: Socket read timed out
+<<<<<<< HEAD
 
 问题35如下
 oracle数据库表锁问题：
@@ -319,3 +320,5 @@ Mybatis异常-java.lang.IllegalArgumentException: invalid comparison:java.util.Dat
 
 
 
+=======
+>>>>>>> 5bb15b9b4f09f9f6e10f669402f0b30de83a8248
