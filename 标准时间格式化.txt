@@ -1,0 +1,14 @@
+var date = new Date('2018-08-06T10:00:00.000Z')
+function formatDate(date) {
+  var year = date.getFullYear()
+  var month = format(date.getMonth() + 1)
+  var da = format(date.getDate())
+  var h = format(date.getHours())
+  var m = format(date.getMinutes())
+  var s = format(date.getSeconds())
+  return year + '-' + month + '-' + da + ' ' + h + ':' + m + ':' + s
+}
+function format(val) {
+  return Number(val) < 10 ? '0' + val : '' + val
+}
+console.log(formatDate(date))
