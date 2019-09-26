@@ -292,7 +292,7 @@ bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00
 close statement error
 2019-09-05 17:14:17.535 ERROR 16240 --- [nio-8089-exec-7] com.alibaba.druid.pool.DruidDataSource   : discard connection
 java.sql.SQLRecoverableException: IO 错误: Socket read timed out
-<<<<<<< HEAD
+
 
 问题35如下
 oracle数据库表锁问题：
@@ -316,9 +316,8 @@ Mybatis异常-java.lang.IllegalArgumentException: invalid comparison:java.util.Dat
 项目写好后打包，用的是测试库的数据库  打包后没有改为正式库的数据库地址 导致正式库一直接收不到数据。
 低级的错误。低级的错误。低级的错误。低级的错误。
 
+问题38如下
+mybatis中语句块报错， ORA-00918: 未明确定义列
+这个错误的意义是说在连接查询时某一个列同时出现在多个表中，sql不知道应该使用哪一个列
 
 
-
-
-=======
->>>>>>> 5bb15b9b4f09f9f6e10f669402f0b30de83a8248
