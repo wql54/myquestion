@@ -320,4 +320,12 @@ Mybatis异常-java.lang.IllegalArgumentException: invalid comparison:java.util.Dat
 mybatis中语句块报错， ORA-00918: 未明确定义列
 这个错误的意义是说在连接查询时某一个列同时出现在多个表中，sql不知道应该使用哪一个列
 
+问题39如下
+获取所有表的字段名
+select column_name from user_tab_columns where table_name='CW_BXD'
+
+
+问题40如下
+XML fragments parsed from previous mappers does not contain value for
+这是因为xml中的sql少东西了
 
