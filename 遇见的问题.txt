@@ -321,7 +321,6 @@ mybatis中语句块报错， ORA-00918: 未明确定义列
 这个错误的意义是说在连接查询时某一个列同时出现在多个表中，sql不知道应该使用哪一个列
 
 问题39如下
-<<<<<<< HEAD
 获取所有表的字段名
 select column_name from user_tab_columns where table_name='CW_BXD'
 
@@ -329,7 +328,8 @@ select column_name from user_tab_columns where table_name='CW_BXD'
 问题40如下
 XML fragments parsed from previous mappers does not contain value for
 这是因为xml中的sql少东西了
-=======
+
+问题41如下
 修改orecal 数据库的用户密码：
 打开cmd，输入 sqlplus /nolog
 进入控制台，输入 conn /as sysdba;以DBA角色进入
@@ -338,5 +338,9 @@ XML fragments parsed from previous mappers does not contain value for
 例：alter user system identified by 123456;
 (一定不要忘记分号~。~)
 
->>>>>>> 8a614204d6dfa5c9e622fdee0e809909e491c346
+问题42如下
+npm install 报错（npm ERR! errno -4048，Error: EPERM: operation not permitted,）解决方法
+需要删除npmrc文件。
+强调：不是nodejs安装目录npm模块下的那个npmrc文件
+而是在C:\Users\{账户}\下的.npmrc文件.
 
